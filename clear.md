@@ -1,0 +1,4 @@
+PRJ-ENC
+Version: 0.0.1.alpha
+Cipher: AES-256-GCM
+KDF: PBKDF2-SHA-256

@@ -1,0 +1,4 @@
+.editor-pane { display: flex; flex-direction: column; height: 100%; width: 100%; }
+.editor-header { display: flex; justify-content: space-between; align-items: center; padding: 6px 16px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); height: 36px; }
+.dirty-indicator { color: var(--warning-color); font-size: 11px; }
+.code-textarea { flex: 1; background: var(--bg-primary); color: var(--text-primary); border: none; padding: 12px; font-family: var(--font-mono); font-size: 13px; line-height: 1.5; resize: none; outline: none; }

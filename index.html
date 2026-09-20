@@ -1,102 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Website1826</title>
-  <style>
-    :root {
-      --bg-color: #f8f9fa;
-      --card-bg: #ffffff;
-      --text-color: #212529;
-      --accent-color: #0d6efd;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      line-height: 1.6;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    header {
-      background-color: var(--card-bg);
-      border-bottom: 1px solid #e9ecef;
-      padding: 1rem 2rem;
-    }
-
-    header h1 {
-      font-size: 1.5rem;
-      color: var(--accent-color);
-    }
-
-    main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      flex: 1;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      background-color: var(--accent-color);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    .btn:hover {
-      opacity: 0.9;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.875rem;
-      color: #6c757d;
-      border-top: 1px solid #e9ecef;
-      background-color: var(--card-bg);
-    }
-  </style>
+  <title>0PRJ IDE - Modular Web Project Editor</title>
+  <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
+  <div class="ide-container">
+    <!-- Menubar -->
+    <header id="menubar-root" class="toolbar">
+      <div class="brand">
+        <span class="icon">⚡</span>
+        <span class="title">PRJ IDE</span>
+      </div>
+      <div class="toolbar-actions">
+        <button id="btn-open" class="btn btn-primary" title="Klicken oder Datei per Drag & Drop ablegen">📂 Öffnen</button>
+        <button id="btn-new" class="btn btn-secondary">➕ Neu</button>
+        <button id="btn-export" class="btn btn-secondary" disabled>💾 Exportieren</button>
+        <button id="btn-encrypt" class="btn btn-secondary" disabled>🔐 Encrypt</button>
+        <button id="btn-load-decrypt" class="btn btn-secondary">🔓 Load+Decrypt</button>
+        <input type="file" id="file-input" accept=".prj,.tar" hidden>
+        <input type="file" id="encrypted-file-input" accept=".prj.enc" hidden>
+      </div>
+      <div class="project-meta">
+        <span id="project-name" class="project-badge">Kein Projekt geladen</span>
+      </div>
+    </header>
 
-  <header>
-    <h1>My Website</h1>
-  </header>
+    <!-- Navigation Tabs -->
+    <nav class="view-tabs">
+      <button class="tab-btn active" data-view="project">📁 Projekt</button>
+      <button class="tab-btn" data-view="editor">📝 Editor / Preview</button>
+      <button class="tab-btn" data-view="preview">▶ Live Preview</button>
+    </nav>
 
-  <main>
-    <section class="card">
-      <h2>Welcome</h2>
-      <p>This is a simple, responsive HTML template with modern CSS defaults.</p>
-      <button class="btn" onclick="alert('Hello World!')">Click Me</button>
-    </section>
-  </main>
+    <!-- Workspace Area -->
+    <main class="workspace">
+      <!-- Project Tree Module Container -->
+      <aside class="sidebar">
+        <div class="sidebar-header">PROJEKTDATEIEN</div>
+        <div id="tree-container" class="tree-container"></div>
+      </aside>
 
-  <footer>
-    <p>&copy; 2026 My Website. All rights reserved.</p>
-  </footer>
+      <section class="main-content">
+        <!-- Notification Banner -->
+        <div id="error-banner" class="error-banner hidden">
+          <span id="error-message"></span>
+          <button id="btn-close-error" class="close-btn">&times;</button>
+        </div>
 
+<!-- View 1: Project Overview -->
+        <div id="view-project" class="view-panel active">
+          <div class="panel-card">
+            <h2>Projektübersicht</h2>
+            <div id="project-stats" class="stats-grid">
+              <div class="stat-item">
+                <span class="stat-label">Dateien gesamt</span>
+                <span id="stat-files" class="stat-value">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Gesamtgröße</span>
+                <span id="stat-size" class="stat-value">0 B</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Einstiegspunkt</span>
+                <span id="stat-entry" class="stat-value">Fehlt</span>
+              </div>
+            </div>
+            <div class="info-box">
+              <h3>Erste Schritte</h3>
+              <p>Öffne ein bestehendes Projekt oder erstelle eine neue Vorlage.</p>
+              <div class="action-buttons" style="margin-top: 15px; display: flex; gap: 10px;">
+                <button id="welcome-btn-open" class="btn btn-primary">📂 Projekt öffnen</button>
+                <button id="welcome-btn-new" class="btn btn-secondary">➕ Neues Projekt erstellen</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 2: Editor & File Preview -->
+        <div id="view-editor" class="view-panel">
+          <!-- Text Editor Module Container -->
+          <div id="editor-container" class="editor-pane hidden"></div>
+
+          <!-- File Preview Module Container -->
+          <div id="preview-file-container" class="preview-pane hidden"></div>
+
+          <!-- Empty Fallback -->
+          <div id="empty-editor" class="preview-pane">
+            <div class="panel-card centered">
+              <p>Keine Datei ausgewählt. Wähle eine Datei im Projektbaum aus.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 3: Live Preview -->
+        <div id="view-preview" class="view-panel">
+          <div class="preview-toolbar">
+            <button id="btn-reload-preview" class="btn btn-sm btn-secondary">🔄 Aktualisieren</button>
+            <span class="preview-status" id="preview-status">Native Static Preview</span>
+          </div>
+          <div class="iframe-container">
+            <iframe id="live-iframe" title="Live Preview"></iframe>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="script/app.js"></script>
 </body>
 </html>
